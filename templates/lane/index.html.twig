@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Lanes{% endblock %}
-
+{% block headline %}Lanes{% endblock %}
 {% block body %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Lanes</h1>
+<div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
      <a href="{{ path('app_lane_new') }}" class="btn btn-primary mb-3">New Lane</a>
 </div>
 <div class="table-responsive small">

@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Cards{% endblock %}
-
+{% block headline %}Cards{% endblock %}
 {% block body %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Cards</h1>
     <a href="{{ path('app_card_label_index') }}" class="btn btn-link p-0">Show labeled cards</a>
           <a href="{{ path('app_card_new') }}" class="btn btn-primary mb-3">New Card</a>
           <a href="{{ path('app_card_label_assign') }}" class="btn btn-primary mb-3">New Card Label</a>

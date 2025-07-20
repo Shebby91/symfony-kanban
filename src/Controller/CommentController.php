@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Card;
 use App\Entity\User;
 use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,25 +25,25 @@ final class CommentController extends AbstractController
         ]);
     }
     
-    #[Route('/{cardId}/comment/new', name: 'app_card_comment_new')]
-    public function add(int $cardId, Request $request, EntityManagerInterface $em): Response
-    {
-        $card = $em->getRepository(Card::class)->find($cardId);
-        $user = $em->getRepository(User::class)->find(1); // Dummy-User
+    
 
-        if (!$card || !$user) {
-            throw $this->createNotFoundException('Card or User not found.');
+    #[Route('/comment/new', name: 'app_card_comment_new')]
+    public function add( Request $request, EntityManagerInterface $em): Response
+    { 
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+         if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setCreatedAt(new \DateTimeImmutable());
+            $comment->setUser($em->getRepository(User::class)->find(1));
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirectToRoute('app_board_index');
         }
 
-        $comment = new Comment();
-        $comment->setContent("Hallo Welt, dies ist ein Kommentar, bitte löschen.");
-        $comment->setCard($card);
-        $comment->setUser($user);
-        $comment->setCreatedAt(new \DateTimeImmutable());
-
-        $em->persist($comment);
-        $em->flush();
-
-        return $this->redirectToRoute('app_board_show', ['id' => $card->getLane()->getBoard()->getId()]);
+        return $this->render('comment/new.html.twig', [
+            'form' => $form,
+        ]);
     }
 }

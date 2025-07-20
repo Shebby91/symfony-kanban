@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Lane;
 use App\Entity\Card;
+use App\Entity\Lane;
 use App\Entity\Board;
+use App\Form\LaneType;
 use App\Repository\LaneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,27 +25,22 @@ final class LaneController extends AbstractController
         ]);
     }
 
-    #[Route('/{boardId}/new/lane', name: 'app_lane_new')]
-    public function new( int $boardId, Request $request, EntityManagerInterface $em): Response {
-        $board = $em->getRepository(Board::class)->find($boardId);
+    #[Route('/new/lane', name: 'app_lane_new')]
+    public function new(Request $request, EntityManagerInterface $em): Response {
+        
+        $lane = new Lane();
+        $form = $this->createForm(LaneType::class, $lane);
 
-        if (!$board) {
-            throw $this->createNotFoundException('Board not found.');
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($lane);
+            $em->flush();
+            return $this->redirectToRoute('app_board_index');
         }
 
-        //TODO IF board id=null, show form with board drop down else without
-
-        $title = $request->request->get('title', 'Later');
-
-        $lane = new Lane();
-        $lane->setTitle($title);
-        $lane->setBoard($board);
-        $lane->setPosition(0); // Position später sortierbar
-
-        $em->persist($lane);
-        $em->flush();
-
-        return $this->redirectToRoute('app_board_show', ['id' => $boardId]);
+        return $this->render('lane/new.html.twig', [
+            'form' => $form,
+        ]);
     }
 
     #[Route('/lane/{id}', name: 'app_lane_show')]

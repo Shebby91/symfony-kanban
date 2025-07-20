@@ -16,7 +16,7 @@
                         <div class="card-header bg-transparent border-info d-flex justify-content-between">
                             {{card.createdAt|date("d.m.Y", "Europe/Berlin")}}
                             {% for cardLabel in card.cardLabels %}
-                                <span class="badge text-bg-info">{{ cardLabel.label.name }}</span>
+                                <span class="badge text-bg-info" style="background-color: {{ cardLabel.label.color }}!important;">{{ cardLabel.label.name }}</span>
                             {% endfor %}
                         </div>
                         <div class="card-body text-info">

@@ -6,6 +6,7 @@ use App\Entity\Lane;
 use App\Entity\User;
 use App\Entity\Board;
 use App\Entity\Label;
+use App\Form\LabelType;
 use App\Repository\LabelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,22 +26,22 @@ final class LabelController extends AbstractController
         ]);
     }
 
-    #[Route('/{boardId}/new/label', name: 'app_label_new')]
-    public function new(int $boardId, Request $request, EntityManagerInterface $em): Response {
-        $board = $em->getRepository(Board::class)->find($boardId);
-        
-        if (!$board) {
-            throw $this->createNotFoundException('Board not found.');
+    #[Route('/new/label', name: 'app_label_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $em): Response {
+                
+        $label = new Label();
+        $form = $this->createForm(LabelType::class, $label);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($label);
+            $em->flush();
+
+            return $this->redirectToRoute('app_label_index');
         }
 
-        $label = new Label();
-        $label->setName('Neu');
-        $label->setColor('#333333');
-        $label->setBoard($board);
-
-        $em->persist($label);
-        $em->flush();
-
-        return $this->redirectToRoute('app_board_show', ['id' => $boardId]);
+        return $this->render('label/new.html.twig', [
+            'form' => $form,
+        ]);
     }
 }

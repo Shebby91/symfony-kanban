@@ -6,6 +6,7 @@ use App\Entity\Card;
 use App\Entity\Lane;
 use App\Entity\User;
 use App\Entity\Label;
+use App\Form\CardType;
 use App\Entity\CardLabel;
 use App\Repository\CardRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -58,31 +59,22 @@ final class CardController extends AbstractController
         return $this->redirectToRoute('app_board_show', ['id' => $card->getLane()->getBoard()->getId()]);
     }
 
-    #[Route('/{laneId}/new/card', name: 'app_card_new')]
-    public function new(int $laneId, Request $request, EntityManagerInterface $em): Response {
-        $lane = $em->getRepository(Lane::class)->find($laneId);
+    #[Route('/new/card', name: 'app_card_new')]
+    public function new(Request $request, EntityManagerInterface $em): Response {
+        $card = new Card();
+        $form = $this->createForm(CardType::class, $card);
+        $form->handleRequest($request);
+         if ($form->isSubmitted() && $form->isValid()) {
+            $card->setCreatedAt(new \DateTimeImmutable());
+            $card->setCreatedBy($em->getRepository(User::class)->find(1));
+            $em->persist($card);
+            $em->flush();
 
-        if (!$lane) {
-            throw $this->createNotFoundException('Lane not found.');
+            return $this->redirectToRoute('app_board_index');
         }
 
-        $card = new Card();
-
-        $card->setTitle('Kanban-Board');
-        $card->setDescription('Kanban-Board programmieren');
-        $card->setLane($lane);
-        $card->setPosition(0); // später sortierbar
-        
-        // Dummy-User (ID 1)
-        $user = $em->getRepository(User::class)->find(1);
-        $card->setCreatedBy($user);
-        $card->setCreatedAt(new \DateTimeImmutable());
-
-        $em->persist($card);
-        $em->flush();
-
-        return $this->redirectToRoute('app_board_show', [
-            'id' => $lane->getBoard()->getId(),
+        return $this->render('card/new.html.twig', [
+            'form' => $form,
         ]);
     }
 

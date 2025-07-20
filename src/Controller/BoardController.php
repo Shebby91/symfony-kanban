@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Card;
 use App\Entity\User;
 use App\Entity\Board;
+use App\Form\BoardType;
 use App\Repository\BoardRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,23 +24,24 @@ final class BoardController extends AbstractController
             'boards' => $boards,
         ]);
     }
-    
+
     #[Route('/board/new', name: 'app_board_new')]
     public function new(EntityManagerInterface $em, Request $request): Response
     {
         $board = new Board();
-        $board->setName('Private Aufgaben');
-        $board->setDescription('Übersicht über anstehende private Aufgaben.');
-        $board->setCreatedAt(new \DateTimeImmutable());
-        
-        // Dummy-User setzen (ohne Auth)
-        $user = $em->getRepository(User::class)->find(1);
-        $board->setOwner($user);
-    
-        $em->persist($board);
-        $em->flush();
-    
-        return $this->redirectToRoute('app_board_index');
+        $form = $this->createForm(BoardType::class, $board);
+        $form->handleRequest($request);
+         if ($form->isSubmitted() && $form->isValid()) {
+            $board->setCreatedAt(new \DateTimeImmutable());
+            $em->persist($board);
+            $em->flush();
+
+            return $this->redirectToRoute('app_board_index');
+        }
+
+        return $this->render('board/new.html.twig', [
+            'form' => $form,
+        ]);
     }
 
     /*#[Route('/user', name: 'app_user_new')]

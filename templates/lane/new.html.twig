@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Lane{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">New lane</h1>
+</div>
+{{ form_start(form) }}
+    {{ form_row(form.board) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.position) }}
+    <button class="btn btn-success">Speichern</button>
+{{ form_end(form) }}
+{% endblock %}

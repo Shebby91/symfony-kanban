@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Card;
+use App\Entity\User;
+use App\Entity\Board;
+use App\Repository\BoardRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+final class BoardController extends AbstractController
+{
+    #[Route('/', name: 'app_board_index')]
+    public function index(BoardRepository $boardRepository): Response
+    {
+        $boards = $boardRepository->findAll();
+    
+        return $this->render('board/index.html.twig', [
+            'boards' => $boards,
+        ]);
+    }
+    
+    #[Route('/board/new', name: 'app_board_new')]
+    public function new(EntityManagerInterface $em, Request $request): Response
+    {
+        $board = new Board();
+        $board->setName('Private Aufgaben');
+        $board->setDescription('Übersicht über anstehende private Aufgaben.');
+        $board->setCreatedAt(new \DateTimeImmutable());
+        
+        // Dummy-User setzen (ohne Auth)
+        $user = $em->getRepository(User::class)->find(1);
+        $board->setOwner($user);
+    
+        $em->persist($board);
+        $em->flush();
+    
+        return $this->redirectToRoute('app_board_index');
+    }
+
+    /*#[Route('/user', name: 'app_user_new')]
+    public function newUser(EntityManagerInterface $em, Request $request): Response
+    {
+        $user = new User();
+        $user->setUsername('Sebastian Grauthoff');
+        $user->setEmail('sgrauthoff@gmail.com');
+        $user->setPassword('admin');
+        $user->setCreatedAt(new \DateTimeImmutable());
+
+        $em->persist($user);
+        $em->flush();
+    
+        return $this->redirectToRoute('app_board_index');
+    }*/
+    
+    #[Route('/board/{id}', name: 'app_board_show')]
+    public function show(Board $board): Response
+    {
+
+        return $this->render('board/show.html.twig', [
+            'board' => $board,
+            'lanes' => $board->getLanes(), // relation in Entity
+        ]);
+    }
+    #[Route('/board/{id}/show', name: 'app_board_show_board')]
+    public function showBoard(Board $board, EntityManagerInterface $em): Response
+    {
+
+        $cards = [];
+        foreach ($board->getLanes() as $lane) {
+            $cards[$lane->getTitle()] = $em->getRepository(Card::class)->findBy(['lane' => $lane->getId()]);
+        }
+     
+
+        return $this->render('board/board.html.twig', [
+            'board' => $board,
+            'cards' => $cards, // relation in Entity
+        ]);
+    }
+}

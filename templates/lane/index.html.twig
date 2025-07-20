@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lanes{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Lanes</h1>
+</div>
+<div class="table-responsive small">
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Board</th>
+                <th scope="col">Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lane in lanes %}
+            <tr>
+                <td><a href="{{ path('app_lane_show', {id: lane.id}) }}">{{ lane.id }}</a></td>
+                <td>{{ lane.title }}</td>
+                <td>{{ lane.board.name }}</td>
+                <td>{{ lane.position }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{board.name}}{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2" style="user-select: none;">{{board.name}}</h1>
+</div>
+    <div class="kanban-board flex-grow-1 pb-4">
+        {% for key, value in cards %}
+            <div class="col {% if loop.last %}me-0{% else %}me-4{% endif %} column bg-body-tertiary" id="{{key}}" style="user-select: none;">
+                <h1 class="h3 mb-3">{{key}}</h1>
+                <hr>
+                {% for card in value %}
+                    <div class="card border-info mb-3 mt-4 task" draggable="true">
+                        <div class="card-header bg-transparent border-info d-flex justify-content-between">
+                            {{card.createdAt|date("d.m.Y", "Europe/Berlin")}}
+                            {% for cardLabel in card.cardLabels %}
+                                <span class="badge text-bg-info">{{ cardLabel.label.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="card-body text-info">
+                            <h5 class="card-title">{{card.title}}</h5>
+                            <p class="card-text">{{card.description}}</p>
+                            <h1 class="h6 mb-1 text-white">Comments:</h1>
+                             {% for comment in card.comments %}
+                                <p class="card-text text-white mb-1">{{comment.content}}</p>
+                                <small class="text-muted">{{comment.user.username}} {{comment.createdAt|date("d.m.Y", "Europe/Berlin")}} </small>
+                                {% else %}
+                                <p class="card-text text-muted mb-1">-</p>   
+                            {% endfor %}
+                            <h1 class="h6 mb-1 text-success mt-3">Assigned to:</h1>
+                            {% for assignment in card.cardAssignments %}
+                                <p class="card-text text-success mb-1">{{assignment.user.username}} {{assignment.assignedAt|date("d.m.Y", "Europe/Berlin")}}</p>
+                                {% else %}
+                                <p class="card-text text-muted mb-1">-</p>   
+                            {% endfor %}
+                        </div>
+                        <div class="card-footer bg-transparent border-info">created by {{card.createdBy.username}}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

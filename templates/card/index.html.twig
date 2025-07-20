@@ -7,6 +7,7 @@
     <h1 class="h2">Cards</h1>
     <a href="{{ path('app_card_label_index') }}" class="btn btn-link p-0">Show labeled cards</a>
           <a href="{{ path('app_card_new') }}" class="btn btn-primary mb-3">New Card</a>
+          <a href="{{ path('app_card_label_assign') }}" class="btn btn-primary mb-3">New Card Label</a>
 </div>
 <div class="table-responsive small">
     <table class="table table-striped table-sm">
@@ -18,7 +19,6 @@
                 <th scope="col">Status</th>
                 <th scope="col">Created by</th>
                 <th scope="col">Created at</th>
-                <th scope="col">Assign User</th
             </tr>
         </thead>
         <tbody>
@@ -30,11 +30,9 @@
                 <td>{{ card.lane.title }}</td>
                 <td>{{ card.createdBy.username }}</td>
                 <td>{{ card.createdAt|date("d.m.Y", "Europe/Berlin") }}</td>
-                <td><a href="{{ path('app_card_assign_user', {cardId: card.id}) }}" class="btn btn-link p-0">Assign User</a></td>
             </tr>
             {% else %}
             <tr>
-                <td>-</td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>

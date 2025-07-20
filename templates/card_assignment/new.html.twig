@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New assignment{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">New assignment</h1>
+</div>
+{{ form_start(form) }}
+    {{ form_row(form.user) }}
+    {{ form_row(form.card) }} 
+    <button class="btn btn-success">Speichern</button>
+{{ form_end(form) }}
+{% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Card;
 use App\Entity\User;
 use App\Entity\CardAssignment;
+use App\Form\CardAssignmentType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CardAssignmentRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +25,24 @@ final class CardAssignmentController extends AbstractController
         ]);
     }
     
-    #[Route('/{cardId}/assign/user', name: 'app_card_assign_user')]
-    public function assignUser(int $cardId, Request $request, EntityManagerInterface $em): Response
+    #[Route('/assign/user', name: 'app_card_assign_user')]
+    public function assignUser(Request $request, EntityManagerInterface $em): Response
     {
+        $assignment = new CardAssignment();
+        $form = $this->createForm(CardAssignmentType::class, $assignment);
+        $form->handleRequest($request);
+         if ($form->isSubmitted() && $form->isValid()) {
+            $assignment->setAssignedAt(new \DateTimeImmutable());
+            $em->persist($assignment);
+            $em->flush();
+
+            return $this->redirectToRoute('app_board_index');
+        }
+
+        return $this->render('card_assignment/new.html.twig', [
+            'form' => $form,
+        ]);
+        
         $card = $em->getRepository(Card::class)->find($cardId);
         $user = $em->getRepository(User::class)->find(1);
 

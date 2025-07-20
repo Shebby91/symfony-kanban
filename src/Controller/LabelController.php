@@ -7,6 +7,8 @@ use App\Entity\User;
 use App\Entity\Board;
 use App\Entity\Label;
 use App\Form\LabelType;
+use App\Entity\CardLabel;
+use App\Form\CardLabelType;
 use App\Repository\LabelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +25,23 @@ final class LabelController extends AbstractController
 
         return $this->render('label/index.html.twig', [
             'labels' => $labels,
+        ]);
+    }
+    #[Route('/label/assign/new', name: 'app_card_label_assign')]
+    public function assign(Request $request, EntityManagerInterface $em): Response
+    {
+        $cardLabel = new CardLabel();
+        $form = $this->createForm(CardLabelType::class, $cardLabel);
+        $form->handleRequest($request);
+         if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($cardLabel);
+            $em->flush();
+
+            return $this->redirectToRoute('app_board_index');
+        }
+
+        return $this->render('card_label/new.html.twig', [
+            'form' => $form,
         ]);
     }
 

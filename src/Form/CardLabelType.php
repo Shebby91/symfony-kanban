@@ -3,14 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Card;
-use App\Entity\CardAssignment;
-use App\Entity\User;
+use App\Entity\CardLabel;
+use App\Entity\Label;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CardAssignmentType extends AbstractType
+class CardLabelType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -19,9 +19,9 @@ class CardAssignmentType extends AbstractType
                 'class' => Card::class,
                 'choice_label' => 'title',
             ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'username',
+            ->add('label', EntityType::class, [
+                'class' => Label::class,
+                'choice_label' => 'name',
             ])
         ;
     }
@@ -29,7 +29,7 @@ class CardAssignmentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => CardAssignment::class,
+            'data_class' => CardLabel::class,
         ]);
     }
 }

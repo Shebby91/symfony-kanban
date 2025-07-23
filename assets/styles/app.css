@@ -100,6 +100,17 @@
     cursor: pointer!important;
 }
 
+.grow-rotate {
+  font-size: 32px;
+  cursor: pointer;
+  display: inline-block;
+  transition: transform 0.3s ease, scale 1s ease;
+}
+
+.grow-rotate:hover {
+  transform: scale(1.4) rotate(180deg);
+}
+
 @media (min-width: 768px) {
   .sidebar .offcanvas-lg {
     position: -webkit-sticky;

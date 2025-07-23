@@ -21,7 +21,10 @@ class CardType extends AbstractType
             ->add('position')
             ->add('lane', EntityType::class, [
                 'class' => Lane::class,
-                'choice_label' => 'board.name',
+                'choices' => $options['available_lanes'],
+                'choice_label' => function (Lane $lane) {
+                    return sprintf('%s (%s)', $lane->getTitle(), $lane->getBoard()->getName());
+                },
             ])
         ;
     }
@@ -30,6 +33,7 @@ class CardType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Card::class,
+            'available_lanes' => null
         ]);
     }
 }

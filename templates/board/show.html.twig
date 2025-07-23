@@ -17,7 +17,7 @@
         <tbody>
             {% for lane in lanes %}
             <tr>
-                <td><a href="{{ path('app_board_show', {id: lane.id}) }}">{{ lane.id }}</a></td>
+                <td>{{ lane.id }}</td>
                 <td>{{ lane.title }}</td>
                 <td>{{ lane.position }}</td>
             </tr>

@@ -6,6 +6,7 @@ use App\Entity\Card;
 use App\Entity\Lane;
 use App\Entity\Board;
 use App\Form\LaneType;
+use App\Repository\BoardRepository;
 use App\Repository\LaneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,12 +27,30 @@ final class LaneController extends AbstractController
     }
 
     #[Route('/new/lane', name: 'app_lane_new')]
-    public function new(Request $request, EntityManagerInterface $em): Response {
+    #[Route('/new/lane/{id}', name: 'app_lane_new_for_board')]
+    public function new(Request $request, EntityManagerInterface $em, ?int $id, BoardRepository $boardRepository): Response {
         
         $lane = new Lane();
-        $form = $this->createForm(LaneType::class, $lane);
+
+        $availableBoards = null;  
+
+        if ($id) {
+            $board = $boardRepository->find($id);
+            if ($board) {
+                $lane->setBoard($board);
+                $availableBoards = [$board];
+            }
+        } else {
+            $availableBoards = $boardRepository->findAll();
+        }
+
+
+        $form = $this->createForm(LaneType::class, $lane, [
+            'available_boards' => $availableBoards,
+        ]);
 
         $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($lane);
             $em->flush();

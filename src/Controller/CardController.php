@@ -9,6 +9,7 @@ use App\Entity\Label;
 use App\Form\CardType;
 use App\Entity\CardLabel;
 use App\Repository\CardRepository;
+use App\Repository\LaneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,25 +49,42 @@ final class CardController extends AbstractController
             throw $this->createNotFoundException('Card or Label not found.');
         }
 
-        $assignment = new CardLabel();
-        $assignment->setCard($card);
-        $assignment->setLabel($label);
+        $cardLabel = new CardLabel();
+        $cardLabel->setCard($card);
+        $cardLabel->setLabel($label);
 
-
-        $em->persist($assignment);
+        $em->persist($cardLabel);
         $em->flush();
 
-        return $this->redirectToRoute('app_board_show', ['id' => $card->getLane()->getBoard()->getId()]);
+        return $this->redirectToRoute('app_board_show_board', ['id' => $card->getLane()->getBoard()->getId()]);
     }
 
     #[Route('/new/card', name: 'app_card_new')]
-    public function new(Request $request, EntityManagerInterface $em): Response {
+    #[Route('/new/card/{id}', name: 'app_card_new_for_lane')]
+    public function new(Request $request, EntityManagerInterface $em, ?int $id, LaneRepository $laneRepository): Response {
+        
         $card = new Card();
-        $form = $this->createForm(CardType::class, $card);
-        $form->handleRequest($request);
-         if ($form->isSubmitted() && $form->isValid()) {
+        
+        $availableLanes = null;  
+
+        if ($id) {
+            $lane = $laneRepository->find($id);
+            if ($lane) {
+                $card->setLane($lane);
+                $availableLanes = [$lane];
+            }
+        } else {
+            $availableLanes = $laneRepository->findAll();
+        }
+
+        $form = $this->createForm(CardType::class, $card, ['available_lanes' => $availableLanes,]);
+        $form->handleRequest($request);  
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            
             $card->setCreatedAt(new \DateTimeImmutable());
             $card->setCreatedBy($em->getRepository(User::class)->find(1));
+            
             $em->persist($card);
             $em->flush();
 

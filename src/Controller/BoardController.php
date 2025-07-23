@@ -44,21 +44,6 @@ final class BoardController extends AbstractController
         ]);
     }
 
-    /*#[Route('/user', name: 'app_user_new')]
-    public function newUser(EntityManagerInterface $em, Request $request): Response
-    {
-        $user = new User();
-        $user->setUsername('Sebastian Grauthoff');
-        $user->setEmail('sgrauthoff@gmail.com');
-        $user->setPassword('admin');
-        $user->setCreatedAt(new \DateTimeImmutable());
-
-        $em->persist($user);
-        $em->flush();
-    
-        return $this->redirectToRoute('app_board_index');
-    }*/
-    
     #[Route('/board/{id}', name: 'app_board_show')]
     public function show(Board $board): Response
     {
@@ -68,19 +53,13 @@ final class BoardController extends AbstractController
             'lanes' => $board->getLanes(), // relation in Entity
         ]);
     }
+
     #[Route('/board/{id}/show', name: 'app_board_show_board')]
     public function showBoard(Board $board, EntityManagerInterface $em): Response
     {
-
-        $cards = [];
-        foreach ($board->getLanes() as $lane) {
-            $cards[$lane->getTitle()] = $em->getRepository(Card::class)->findBy(['lane' => $lane->getId()]);
-        }
-     
-
+        //dd($board);
         return $this->render('board/board.html.twig', [
             'board' => $board,
-            'cards' => $cards, // relation in Entity
         ]);
     }
 }

@@ -18,6 +18,7 @@ class LaneType extends AbstractType
             ->add('position')
             ->add('board', EntityType::class, [
                 'class' => Board::class,
+                'choices' => $options['available_boards'],
                 'choice_label' => 'name',
             ])
         ;
@@ -27,6 +28,7 @@ class LaneType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Lane::class,
+            'available_boards' => null
         ]);
     }
 }

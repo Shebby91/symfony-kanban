@@ -2,31 +2,48 @@
 
 {% block title %}{{board.name}}{% endblock %}
 {% block headline %}{{board.name}}{% endblock %}
+{% block button %}<a href="{{ path('app_lane_new_for_board', {id: board.id }) }}" class="btn btn-sm btn-primary mb-0 me-4">Add lane</a>{% endblock %}
 {% block body %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-</div>
-    <div class="kanban-board flex-grow-1 pb-4">
-        {% for key, value in cards %}
-            <div class="col {% if loop.last %}me-0{% else %}me-4{% endif %} column bg-body-tertiary" id="{{key}}" style="user-select: none;">
-                <h1 class="h3 mb-3">{{key}}</h1>
+    <div class="kanban-board flex-grow-1 my-4">
+        {% for lane in board.lanes %}
+            <div class="col {% if loop.last %}me-0{% else %}me-4{% endif %} column bg-body-tertiary" id="{{lane.id}}" style="user-select: none;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1 class="h4 mb-0">{{lane.title}}</h1>
+                    <a href="{{ path('app_card_new_for_lane', {id: lane.id }) }}" class="btn btn-link-primary text-decoration-none p-0 d-flex align-items-center">
+                        <span class="material-symbols-rounded grow-rotate">add_circle</span>
+                    </a>
+                </div>
                 <hr>
-                {% for card in value %}
-                    <div class="card border-info mb-3 mt-4 task" draggable="true">
+                {% for card in lane.cards %}
+                    <div class="card border-primary mb-3 mt-4 task" draggable="true">
                         <div class="card-header bg-transparent border-info d-flex justify-content-between">
                             {{card.createdAt|date("d.m.Y", "Europe/Berlin")}}
                             {% for cardLabel in card.cardLabels %}
-                                <span class="badge text-bg-info" style="background-color: {{ cardLabel.label.color }}!important;">{{ cardLabel.label.name }}</span>
+                                <span class="badge text-bg-info py-2" style="background-color: {{ cardLabel.label.color }}!important;">{{ cardLabel.label.name }}</span>
+                            {% else %}
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-link dropdown-toggle text-white text-decoration-none px-0" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Add label
+                                </button>
+                                <ul class="dropdown-menu">
+                                {% for label in board.labels %}
+                                    <li><a class="dropdown-item px-2" href="{{ path('app_card_label_assign', {cardId: card.id, labelId: label.id }) }}"><span class="badge text-bg-info w-100" style="background-color: {{ label.color }}!important;">{{ label.name }}</span></a></li>    
+                                {% endfor %}
+                                    <li><a href="{{ path('app_label_new') }}" class="dropdown-item px-2">New label</a></li>
+                                </ul>
+                            </div>
                             {% endfor %}
                         </div>
-                        <div class="card-body text-info">
+                        <div class="card-body text-white">
                             <h5 class="card-title">{{card.title}}</h5>
-                            <p class="card-text">{{card.description}}</p>
+                            <p class="card-text text-truncate" style="max-width: 220px;">{{card.description}}</p>
                             <h1 class="h6 mb-1 text-white">Comments:</h1>
                              {% for comment in card.comments %}
-                                <p class="card-text text-white mb-1">{{comment.content}}</p>
+                                <p class="card-text text-white mb-1 text-truncate" style="max-width: 220px;">{{comment.content}}</p>
                                 <small class="text-muted">{{comment.user.username}} {{comment.createdAt|date("d.m.Y", "Europe/Berlin")}} </small>
                                 {% else %}
                                 <p class="card-text text-muted mb-1">-</p>   
+                                <p class="card-text text-muted mb-1">-</p> 
                             {% endfor %}
                             <h1 class="h6 mb-1 text-success mt-3">Assigned to:</h1>
                             {% for assignment in card.cardAssignments %}
@@ -42,4 +59,5 @@
         {% endfor %}
     </div>
 </div>
+
 {% endblock %}

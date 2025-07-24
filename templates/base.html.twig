@@ -9,6 +9,7 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Astro v5.9.2">
     <meta name="theme-color" content="#712cf9">
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
     {% block stylesheets %}
     {% endblock %}
 
@@ -42,7 +43,7 @@
         </symbol>
     </svg>
     <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle"> <button
-            class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
+            class="btn btn-primary py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
             aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)"> <svg
                 class="bi my-1 theme-icon-active" aria-hidden="true">
                 <use href="#circle-half"></use>
@@ -75,53 +76,48 @@
         </ul>
     </div>
     <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow justify-content-start w-100" data-bs-theme="dark"> <a
-            class="navbar-brand col-md-3 col-lg-1 me-0 p-0 fs-6 text-white" href="#"><h1 class="h4 p-3">Kanban</h1></a>
+            class="navbar-brand w-auto me-0 p-0 fs-6 text-white" href="#">
+            <h1 class="h4 p-3 mb-0"><img src="{{ asset('img/logo.png') }}" class="d-flex" width="26" height="26" alt="logo"></h1></a>
             <div class="d-flex justify-content-between w-100">
-                <h1 class="h4 p-3 px-4">{% block headline %}{% endblock %}</h1>
+                <h1 class="h4 p-3 px-4 mb-0">{% block headline %}{% endblock %}</h1>
                 <div class="d-flex align-items-center">{% block button %}{% endblock %}</div>
             </div>
     </header>
     <div class="container-fluid flex-grow-1 d-flex flex-column">
         <div class="row flex-grow-1">
-            <div class="sidebar border border-right col-md-2 col-lg-1 p-0 bg-body-tertiary">
-                <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
+            <div class="sidebar border border-right w-auto p-0 bg-body-tertiary">
+                <div class="offcanvas-md h-100 offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
                     aria-labelledby="sidebarMenuLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="sidebarMenuLabel">Kanban</h5> <button type="button"
                             class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
                             aria-label="Close"></button>
                     </div>
-                    <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
-                        <h6
-                            class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
-                            <span>Settings</span> <a class="link-secondary" href="#" aria-label="Add a new report">
-                            </a>
-                        </h6>
+                    <div class="offcanvas-body h-100 d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
+
                         <ul class="nav flex-column">
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center gap-2"
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center"
                                     aria-current="page" href="{{ path('app_board_index') }}">
-                                    Boards
+                                    <span class="material-symbols-rounded">view_kanban</span>
                                 </a> </li>
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center gap-2" href="{{ path('app_lane_index') }}">
-                                    Lanes
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center" href="{{ path('app_lane_index') }}">
+                                    <span class="material-symbols-rounded">view_column</span>
                                 </a> </li>
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center gap-2" href="{{ path('app_card_index') }}">
-                                    Cards
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center" href="{{ path('app_card_index') }}">
+                                    <span class="material-symbols-rounded">fact_check</span>
                                 </a> </li>
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center gap-2" href="{{ path('app_label_index') }}">
-                                    Labels
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center" href="{{ path('app_label_index') }}"><span class="material-symbols-rounded">label</span>
                                 </a> </li>
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center gap-2" href="{{ path('app_comment_index') }}">
-                                    Comments
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center" href="{{ path('app_comment_index') }}"><span class="material-symbols-rounded">comment</span>
                                 </a> </li>
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center gap-2" href="{{ path('app_assignment_index') }}">
-                                    Assignments
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center" href="{{ path('app_assignment_index') }}">
+                                    <span class="material-symbols-rounded">assignment_add</span>
                                 </a> </li>
                         </ul>
                         <hr class="my-3">
-                        <ul class="nav flex-column mb-auto">
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    Sign out
+                        <ul class="nav flex-column mt-auto">
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center py-3" href="#">
+                                    <span class="material-symbols-rounded">logout</span>
                                 </a> </li>
                         </ul>
                     </div>

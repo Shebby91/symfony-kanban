@@ -17,6 +17,7 @@ class CardAssignmentType extends AbstractType
         $builder
             ->add('card', EntityType::class, [
                 'class' => Card::class,
+                'choices' => $options['available_cards'],
                 'choice_label' => 'title',
             ])
             ->add('user', EntityType::class, [
@@ -30,6 +31,7 @@ class CardAssignmentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CardAssignment::class,
+            'available_cards' => null
         ]);
     }
 }

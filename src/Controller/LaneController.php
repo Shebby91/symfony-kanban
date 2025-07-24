@@ -54,7 +54,7 @@ final class LaneController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($lane);
             $em->flush();
-            return $this->redirectToRoute('app_board_index');
+        return $this->redirectToRoute('app_board_show_board', ['id' => $id]);
         }
 
         return $this->render('lane/new.html.twig', [

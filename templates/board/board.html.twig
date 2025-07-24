@@ -18,8 +18,8 @@
                 </div>
                 <hr>
                 {% for card in lane.cards %}
-                    <div class="card border-primary mb-3 mt-4 task shadow" draggable="true">
-                        <div class="card-header bg-transparent border-info d-flex justify-content-between">
+                    <div class="card border-primary border-2 mb-3 mt-4 task shadow" draggable="true">
+                        <div class="card-header bg-transparent border-primary border-2 d-flex justify-content-between">
                             {{card.createdAt|date("d.m.Y", "Europe/Berlin")}}
                             {% for cardLabel in card.cardLabels %}
                                 <span class="badge text-bg-info py-2" style="background-color: {{ cardLabel.label.color }}!important;">{{ cardLabel.label.name }}</span>
@@ -38,24 +38,42 @@
                             {% endfor %}
                         </div>
                         <div class="card-body text-white">
-                            <h5 class="card-title">{{card.title}}</h5>
+                            <h5 class="card-title text-truncate" style="max-width: 220px;">{{card.title}}</h5>
                             <p class="card-text text-truncate" style="max-width: 220px;">{{card.description}}</p>
-                            <h1 class="h6 mb-1 text-white">Comments:</h1>
-                             {% for comment in card.comments %}
-                                <p class="card-text text-white mb-1 text-truncate" style="max-width: 220px;">{{comment.content}}</p>
-                                <small class="text-muted">{{comment.user.username}} {{comment.createdAt|date("d.m.Y", "Europe/Berlin")}} </small>
-                                {% else %}
-                                <p class="card-text text-muted mb-1">-</p>   
-                                <p class="card-text text-muted mb-1">-</p> 
-                            {% endfor %}
+                            <div class="accordion accordion-flush" id="accordionFlush-{{card.id}}">
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header text-white ">
+                                    <button class="accordion-button bg-transparent p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{card.id}}" aria-expanded="false" aria-controls="flush-collapse-{{card.id}}">
+                                        <h1 class="h6 mb-1 text-white">Comments:</h1>
+                                    </button>
+                                  </h2>
+                                  <div id="flush-collapse-{{card.id}}" class="accordion-collapse collapse" data-bs-parent="#accordionFlush-{{card.id}}">
+                                    <div class="accordion-body px-0">
+                                        {% for comment in card.comments %}
+                                            <p class="card-text text-white mb-1 text-truncate" style="max-width: 220px;">{{comment.content}}</p>
+                                            <small class="text-muted">{{comment.user.username}} {{comment.createdAt|date("d.m.Y", "Europe/Berlin")}} </small>
+                                        {% endfor %}
+                                        <div>
+                                            <a href="{{ path('app_card_comment_new_card_comment', {id: card.id}) }}" class="btn btn-link text-decoration-none text-white p-0 d-flex align-items-center justify-content-start">
+                                                <span class="material-symbols-rounded fs-5 pulse-hover me-2">edit</span> write new comment
+                                            </a>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
                             <h1 class="h6 mb-1 text-success mt-3">Assigned to:</h1>
                             {% for assignment in card.cardAssignments %}
-                                <p class="card-text text-success mb-1">{{assignment.user.username}} {{assignment.assignedAt|date("d.m.Y", "Europe/Berlin")}}</p>
+                                <p class="card-text text-muted mb-3">{{assignment.user.username}} {{assignment.assignedAt|date("d.m.Y", "Europe/Berlin")}}</p>
                                 {% else %}
-                                <p class="card-text text-muted mb-1">-</p>   
+                                <div>
+                                    <a href="{{ path('app_card_assign_user_new_assignment', {id: card.id}) }}" class="btn btn-link text-decoration-none text-white p-0 d-flex align-items-center justify-content-center mb-3">
+                                        <span class="material-symbols-rounded fs-5 text-muted pulse-hover me-2">add_circle</span>
+                                    </a>
+                                </div>
                             {% endfor %}
                         </div>
-                        <div class="card-footer bg-transparent border-info">created by {{card.createdBy.username}}</div>
+                        <div class="card-footer bg-transparent border-primary border-2">created by {{card.createdBy.username}}</div>
                     </div>
                 {% endfor %}
             </div>

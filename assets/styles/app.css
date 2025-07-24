@@ -127,6 +127,18 @@
   cursor: pointer !important;
 }
 
+.grow {
+  font-size: 28px;
+  cursor: pointer;
+  display: inline-block;
+  transition: scale 1s ease;
+}
+
+.grow:hover {
+  color: #fff;
+  transform: scale(1.4);
+}
+
 .grow-rotate {
   font-size: 28px;
   cursor: pointer;

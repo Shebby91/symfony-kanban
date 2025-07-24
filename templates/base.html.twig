@@ -76,12 +76,19 @@
         </ul>
     </div>
     <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow justify-content-start w-100" data-bs-theme="dark"> <a
-            class="navbar-brand w-auto me-0 p-0 fs-6 text-white" href="#">
+            class="navbar-brand w-auto me-0 p-0 fs-6 text-white" href="{{ path('app_board_index') }}">
             <h1 class="h4 p-3 mb-0"><img src="{{ asset('img/logo.png') }}" class="d-flex" width="26" height="26" alt="logo"></h1></a>
             <div class="d-flex justify-content-between w-100">
                 <h1 class="h4 p-3 px-4 mb-0">{% block headline %}{% endblock %}</h1>
                 <div class="d-flex align-items-center">{% block button %}{% endblock %}</div>
             </div>
+            {#% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %#}
     </header>
     <div class="container-fluid flex-grow-1 d-flex flex-column">
         <div class="row flex-grow-1">
@@ -96,28 +103,22 @@
                     <div class="offcanvas-body h-100 d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
 
                         <ul class="nav flex-column">
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center"
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center grow"
                                     aria-current="page" href="{{ path('app_board_index') }}">
                                     <span class="material-symbols-rounded">view_kanban</span>
                                 </a> </li>
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center" href="{{ path('app_lane_index') }}">
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center grow" href="{{ path('app_lane_index') }}">
                                     <span class="material-symbols-rounded">view_column</span>
                                 </a> </li>
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center" href="{{ path('app_card_index') }}">
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center grow" href="{{ path('app_card_index') }}">
                                     <span class="material-symbols-rounded">fact_check</span>
                                 </a> </li>
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center" href="{{ path('app_label_index') }}"><span class="material-symbols-rounded">label</span>
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center grow" href="{{ path('app_label_index') }}"><span class="material-symbols-rounded">label</span>
                                 </a> </li>
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center" href="{{ path('app_comment_index') }}"><span class="material-symbols-rounded">comment</span>
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center grow" href="{{ path('app_comment_index') }}"><span class="material-symbols-rounded">comment</span>
                                 </a> </li>
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center" href="{{ path('app_assignment_index') }}">
+                            <li class="nav-item"> <a class="nav-link d-flex align-items-center grow" href="{{ path('app_assignment_index') }}">
                                     <span class="material-symbols-rounded">assignment_add</span>
-                                </a> </li>
-                        </ul>
-                        <hr class="my-3">
-                        <ul class="nav flex-column mt-auto">
-                            <li class="nav-item"> <a class="nav-link d-flex align-items-center py-3" href="#">
-                                    <span class="material-symbols-rounded">logout</span>
                                 </a> </li>
                         </ul>
                     </div>

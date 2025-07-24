@@ -2,7 +2,7 @@
 
 {% block title %}{{board.name}}{% endblock %}
 {% block headline %}{{board.name}}{% endblock %}
-{% block button %}<a href="{{ path('app_lane_new_for_board', {id: board.id }) }}" class="btn btn-sm btn-primary mb-0 me-4">Add lane</a>{% endblock %}
+{% block button %}<a href="{{ path('app_lane_new_for_board', {id: board.id }) }}" class="btn btn-sm btn-primary glow-hover-primary mb-0 me-4">Add lane</a>{% endblock %}
 {% block body %}
     <div class="kanban-board flex-grow-1 my-4">
         {% for lane in board.lanes %}

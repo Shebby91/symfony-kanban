@@ -21,6 +21,7 @@ class LabelType extends AbstractType
             ])
             ->add('board', EntityType::class, [
                 'class' => Board::class,
+                'choices' => $options['available_boards'],
                 'choice_label' => 'name',
             ])
         ;
@@ -30,6 +31,7 @@ class LabelType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Label::class,
+            'available_boards' => null
         ]);
     }
 }

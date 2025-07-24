@@ -44,16 +44,6 @@ final class BoardController extends AbstractController
         ]);
     }
 
-    #[Route('/board/{id}', name: 'app_board_show')]
-    public function show(Board $board): Response
-    {
-
-        return $this->render('board/show.html.twig', [
-            'board' => $board,
-            'lanes' => $board->getLanes(), // relation in Entity
-        ]);
-    }
-
     #[Route('/board/{id}/show', name: 'app_board_show_board')]
     public function showBoard(Board $board, EntityManagerInterface $em): Response
     {

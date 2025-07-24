@@ -2,7 +2,10 @@
 
 {% block title %}{{board.name}}{% endblock %}
 {% block headline %}{{board.name}}{% endblock %}
-{% block button %}<a href="{{ path('app_lane_new_for_board', {id: board.id }) }}" class="btn btn-sm btn-primary glow-hover-primary mb-0 me-4">Add lane</a>{% endblock %}
+{% block button %}
+<a href="{{ path('app_lane_new_for_board', {id: board.id }) }}" class="btn btn-sm btn-primary glow-hover-primary mb-0 me-4">Add lane</a>
+<a href="{{ path('app_label_new_for_board', {id: board.id }) }}" class="btn btn-sm btn-primary glow-hover-primary mb-0 me-4">Add label</a>
+{% endblock %}
 {% block body %}
     <div class="kanban-board flex-grow-1 my-4">
         {% for lane in board.lanes %}
@@ -15,7 +18,7 @@
                 </div>
                 <hr>
                 {% for card in lane.cards %}
-                    <div class="card border-primary mb-3 mt-4 task" draggable="true">
+                    <div class="card border-primary mb-3 mt-4 task shadow" draggable="true">
                         <div class="card-header bg-transparent border-info d-flex justify-content-between">
                             {{card.createdAt|date("d.m.Y", "Europe/Berlin")}}
                             {% for cardLabel in card.cardLabels %}
@@ -29,7 +32,7 @@
                                 {% for label in board.labels %}
                                     <li><a class="dropdown-item px-2" href="{{ path('app_card_label_assign', {cardId: card.id, labelId: label.id }) }}"><span class="badge text-bg-info w-100" style="background-color: {{ label.color }}!important;">{{ label.name }}</span></a></li>    
                                 {% endfor %}
-                                    <li><a href="{{ path('app_label_new') }}" class="dropdown-item px-2">New label</a></li>
+                                    <li><a href="{{ path('app_card_label_new_assign', {id: board.id, cardId: card.id}) }}" class="dropdown-item px-2">New label</a></li>
                                 </ul>
                             </div>
                             {% endfor %}

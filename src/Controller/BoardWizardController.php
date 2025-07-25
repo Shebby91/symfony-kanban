@@ -37,7 +37,7 @@ class BoardWizardController extends AbstractController
             case 2:
                 $lanes = $boardData['lanes'] ?? [];
                 $labels = $boardData['labels'] ?? [];
-
+                
                 $laneForm = $this->createForm(LaneType::class, null, ['available_boards' => null]);
                 $laneForm->handleRequest($request);
                 if ($laneForm->isSubmitted() && $laneForm->isValid()) {

@@ -49,17 +49,18 @@
     <div class="col d-flex text-start px-5 mt-4">
         {% for lane in lanes %} 
         <div class="col bg-body-tertiary text-center {% if loop.last %}me-0{% else %}me-2{% endif %} shadow">
-            <h1 class="h5 mt-2">{{ lane.title }}</h1>
+            <h1 class="h6 mt-2">{{ lane.title }}</h1>
+            <hr class="mx-4">
         </div>
         {% else %}
         <li class="list-group-item text-center">No lanes added to board</li>
         {% endfor %}
     </div>
     <div class="col text-start px-5 mt-4">
-        <ul>
+        <ul class="list-group">
             {% for label in labels %}
                 <li class="list-group-item text-center">
-                    <span class="badge text-bg-info w-50 text-white mt-2" style="background-color: {{ label.color }}!important;">{{ label.name }}</span>
+                    <span class="badge text-bg-info w-100 text-white" style="background-color: {{ label.color }}!important;">{{ label.name }}</span>
                 </li>
                 {% else %}
                 <li class="list-group-item text-center">No labels added to board</li>

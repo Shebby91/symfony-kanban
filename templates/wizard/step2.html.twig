@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Board{% endblock %}
-{% block headline %}New Board{% endblock %}
+{% block title %}Configure Board{% endblock %}
+{% block headline %}Configure Board{% endblock %}
 {% block body %}
-<div class="container text-center mt-5">
-  <div class="row">
+<div class="container text-center mt-3">
+  <div class="row justify-content-between mt-5 pt-5">
     <div class="col px-5">
-        <span class="material-symbols-rounded fs-1">view_column</span>
+        <span class="material-symbols-rounded fs-1" style="font-size: 160px!important;">view_column</span>
         <h1 class="mx-3">Create Lanes</h1>
         <p class="lead">Create lanes for your board.</p>
         {{ form_start(lane_form) }}
@@ -25,7 +25,7 @@
         {{ form_end(lane_form) }}
     </div>
     <div class="col px-5">
-        <span class="material-symbols-rounded fs-1">label</span>
+        <span class="material-symbols-rounded fs-1" style="font-size: 160px!important;">label</span>
         <h1 class="mx-3">Create Labels</h1>
         <p class="lead">Create labels for your board.</p>
         {{ form_start(label_form) }}
@@ -50,7 +50,7 @@
         <hr>
         <ul>
             {% for lane in lanes %}
-                <li>{{ lane.title }} (Position: {{ lane.position }})</li>
+                <li>{{ lane.title }}</li>
             {% else %}
                 <li class="list-group-item text-center">No lanes added to board</li>
             {% endfor %}

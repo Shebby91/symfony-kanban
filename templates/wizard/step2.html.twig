@@ -50,7 +50,7 @@
         <hr>
         <ul>
             {% for lane in lanes %}
-                <li>{{ lane.title }}</li>
+                <li class="list-group-item text-center">{{ lane.title }}</li>
             {% else %}
                 <li class="list-group-item text-center">No lanes added to board</li>
             {% endfor %}
@@ -60,10 +60,8 @@
         <hr>
         <ul>
             {% for label in labels %}
-                <li>
-                    <span style="background-color: {{ label.color }}; color: white; padding: 3px 8px; border-radius: 4px;">
-                        {{ label.name }}
-                    </span>
+                <li class="list-group-item text-center">
+                    <span class="badge text-bg-info w-50 text-white mt-2" style="background-color: {{ label.color }}!important;">{{ label.name }}</span>
                 </li>
                 {% else %}
                 <li class="list-group-item text-center">No labels added to board</li>

@@ -3,9 +3,19 @@
 {% block title %}New Board{% endblock %}
 {% block headline %}New Board{% endblock %}
 {% block body %}
-<hr>
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-success">Speichern</button>
-{{ form_end(form) }}
+<div class="row justify-content-center flex-column align-items-center mt-5 mb-auto">
+<div class="col-3 d-flex flex-column justify-content-center align-items-center">
+    <span class="material-symbols-rounded fs-1">view_kanban</span>
+    <h1 class="mx-3">Create Board</h1>
+    <p class="lead">Create your personal board.</p>
+</div>
+<div class="col-3">
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <p class="lead d-flex w-100 justify-content-end">
+            <button class="btn btn-primary glow-hover-primary">Next step</button>
+        </p>
+    {{ form_end(form) }}
+    </div>
+</div>
 {% endblock %}

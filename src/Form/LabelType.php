@@ -18,13 +18,15 @@ class LabelType extends AbstractType
             ->add('name')
             ->add('color', ColorType::class, [
                 'label' => 'Farbe auswählen',
-            ])
+            ]);
+            if (!is_null($options['available_boards'])) {
+            $builder
             ->add('board', EntityType::class, [
                 'class' => Board::class,
                 'choices' => $options['available_boards'],
                 'choice_label' => 'name',
-            ])
-        ;
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

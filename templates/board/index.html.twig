@@ -28,13 +28,14 @@
                 <td><a class="btn btn-sm btn-primary glow-hover-primary w-100" href="{{ path('app_board_show_board', {id: board.id}) }}">Show board</a></td>
             </tr>
             {% else %}
+            
             <tr>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
-                <td>-</td>
+                <td><a href="{{ path('app_board_wizard') }}" class="btn btn-sm btn-primary glow-hover-primary mb-0 me-4">New Board</a></td>
             </tr>
             {% endfor %}
         </tbody>

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Board{% endblock %}
+{% block headline %}New Board{% endblock %}
+{% block body %}
+<hr>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-success">Speichern</button>
+{{ form_end(form) }}
+{% endblock %}

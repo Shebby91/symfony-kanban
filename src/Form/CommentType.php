@@ -18,6 +18,7 @@ class CommentType extends AbstractType
             ->add('content')
             ->add('card', EntityType::class, [
                 'class' => Card::class,
+                'choices' => $options['available_cards'],
                 'choice_label' => 'title',
             ])
         ;
@@ -27,6 +28,7 @@ class CommentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Comment::class,
+            'available_cards' => null
         ]);
     }
 }

@@ -6,6 +6,7 @@ use App\Entity\Board;
 use App\Entity\Lane;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,13 +16,17 @@ class LaneType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('position')
+            ->add('position', NumberType::class,[
+                'data' => 0,
+            ]);
+            if (!is_null($options['available_boards'])) {
+            $builder
             ->add('board', EntityType::class, [
                 'class' => Board::class,
                 'choices' => $options['available_boards'],
                 'choice_label' => 'name',
-            ])
-        ;
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

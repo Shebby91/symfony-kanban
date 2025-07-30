@@ -1,3 +1,23 @@
+@font-face {
+  font-family: 'Material Symbols Rounded';
+  font-style: normal;
+  src: url('../fonts/MaterialSymbolsRounded.woff2') format('woff2');
+}
+
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
 .b-example-divider {
   width: 100%;
   height: 3rem;
@@ -60,6 +80,13 @@
   display: block !important;
 }
 
+.sidebar {
+  position: sticky;
+  top: 61px;
+  height: calc(100vh - 61px);
+  overflow-y: auto;
+}
+
 .sidebar .nav-link {
   font-size: 0.875rem;
   font-weight: 500;
@@ -85,23 +112,35 @@
 }
 
 .kanban-board {
-    display: flex;
-    justify-content: space-between;
-    padding: 0px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px;
 }
 
 .column {
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .task {
-    cursor: pointer!important;
+  cursor: pointer !important;
+}
+
+.grow {
+  font-size: 28px;
+  cursor: pointer;
+  display: inline-block;
+  transition: scale 1s ease;
+}
+
+.grow:hover {
+  color: #fff;
+  transform: scale(1.4);
 }
 
 .grow-rotate {
-  font-size: 32px;
+  font-size: 28px;
   cursor: pointer;
   display: inline-block;
   transition: transform 0.3s ease, scale 1s ease;
@@ -109,6 +148,36 @@
 
 .grow-rotate:hover {
   transform: scale(1.4) rotate(180deg);
+}
+
+
+.pulse-hover:hover {
+  animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.glow-hover {
+  transition: box-shadow 0.6s ease-in-out;
+}
+
+.glow-hover-primary:hover {
+  box-shadow: 0 0 8px var(--bs-btn-border-color);
 }
 
 @media (min-width: 768px) {

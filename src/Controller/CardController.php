@@ -28,16 +28,6 @@ final class CardController extends AbstractController
         ]);
     }
 
-    #[Route('/card/labels', name: 'app_card_label_index')]
-    public function cardLabelsIndex(EntityManagerInterface $em): Response
-    {
-        $cardLabels = $em->getRepository(CardLabel::class)->findAll();
-
-        return $this->render('card_label/index.html.twig', [
-            'cardLabels' => $cardLabels,
-        ]);
-    }
-
     #[Route('/{cardId}/{labelId}/assign/new', name: 'app_card_label_assign')]
     public function assign(int $cardId, int $labelId, Request $request, EntityManagerInterface $em): Response
     {

@@ -15,6 +15,6 @@ COPY . .
 # Rechte setzen
 RUN chown -R www-data:www-data /var/www/html
 # Symfony Permissions Fix
-RUN chmod -R 755 /var/www/html/var
+RUN chmod -R 755 /var/www/html
 # Apache-Konfiguration (wird unten noch erklärt)
 COPY vhost.conf /etc/apache2/sites-available/000-default.conf

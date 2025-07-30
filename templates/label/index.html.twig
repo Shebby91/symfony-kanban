@@ -2,13 +2,13 @@
 
 {% block title %}Labels{% endblock %}
 {% block headline %}Labels{% endblock %}
+{% block button %}
+<a href="{{ path('app_label_new') }}" class="btn btn-sm btn-primary glow-hover-primary mb-0 me-4">New Label</a>
+{% endblock %}
 {% block body %}
-<div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <a href="{{ path('app_label_new') }}" class="btn btn-primary mb-3 ms-2">New Label</a>
-    <a href="{{ path('app_card_label_assign') }}" class="btn btn-primary mb-3">New Card Label</a>
-</div>
-<div class="table-responsive small">
-    <table class="table table-striped table-sm">
+<hr>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th scope="col">#</th>

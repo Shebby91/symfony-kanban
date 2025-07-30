@@ -44,20 +44,26 @@ final class BoardController extends AbstractController
         ]);
     }
 
-    #[Route('/board/{id}', name: 'app_board_show')]
-    public function show(Board $board): Response
+    #[Route('/user', name: 'app_user_new')]
+    public function newUser(EntityManagerInterface $em, Request $request): Response
     {
+        $user = new User();
+        $user->setUsername('Sebastian Grauthoff');
+        $user->setEmail('sgrauthoff@gmail.com');
+        $user->setPassword('admin');
+        $user->setCreatedAt(new \DateTimeImmutable());
 
-        return $this->render('board/show.html.twig', [
-            'board' => $board,
-            'lanes' => $board->getLanes(), // relation in Entity
-        ]);
+        $em->persist($user);
+        $em->flush();
+    
+        return $this->redirectToRoute('app_board_index');
     }
 
     #[Route('/board/{id}/show', name: 'app_board_show_board')]
     public function showBoard(Board $board, EntityManagerInterface $em): Response
     {
         //dd($board);
+        //$this->addFlash('success', 'Your changes were saved!');
         return $this->render('board/board.html.twig', [
             'board' => $board,
         ]);

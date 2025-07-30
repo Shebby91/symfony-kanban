@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Success{% endblock %}
+{% block headline %}Success{% endblock %}
+{% block body %}
+<hr>
+<a class="btn btn-sm btn-primary glow-hover-primary w-100" href="{{ path('app_board_show_board', {id: board.id}) }}">Show board</a>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Configure Board{% endblock %}
+{% block headline %}Configure Board{% endblock %}
+{% block body %}
+<div class="container text-center mt-3">
+  <div class="row justify-content-between mt-5 pt-5">
+    <div class="col px-5">
+        <span class="material-symbols-rounded fs-1" style="font-size: 160px!important;">view_column</span>
+        <h1 class="mx-3">Create Lanes</h1>
+        <p class="lead">Create lanes for your board.</p>
+        {{ form_start(lane_form) }}
+            <div class="d-flex">
+                <div class="col-1 me-2">
+                {{ form_widget(lane_form.position) }}
+                </div>
+                <div class="col">
+                 {{ form_widget(lane_form.title) }}
+                </div>
+                <div class="col-1 ms-2">
+                    <button class="btn btn-link text-decoration-none glow-hover-primary"><span class="material-symbols-rounded grow-rotate">add_circle</span></button>
+                </div>
+             </div>
+
+        {{ form_end(lane_form) }}
+    </div>
+    <div class="col px-5">
+        <span class="material-symbols-rounded fs-1" style="font-size: 160px!important;">label</span>
+        <h1 class="mx-3">Create Labels</h1>
+        <p class="lead">Create labels for your board.</p>
+        {{ form_start(label_form) }}
+        <div class="d-flex">
+            <div class="col-1 me-2">
+            {{ form_widget(label_form.color) }}
+            </div>
+            <div class="col">
+            {{ form_widget(label_form.name) }}
+            </div>
+            <div class="col-1 ms-2">
+                <button class="btn btn-link text-decoration-none glow-hover-primary"><span class="material-symbols-rounded grow-rotate">add_circle</span></button>
+            </div>
+        </div>
+        {{ form_end(label_form) }}
+    </div>
+  </div>
+</div>
+<div class="container text-center h-100">
+  <div class="row h-100">
+    <div class="col d-flex text-start px-5 mt-4">
+        {% for lane in lanes %} 
+        <div class="col bg-body-tertiary text-center {% if loop.last %}me-0{% else %}me-2{% endif %} shadow">
+            <h1 class="h6 mt-2">{{ lane.title }}</h1>
+            <hr class="mx-4">
+        </div>
+        {% else %}
+        <li class="list-group-item text-center">No lanes added to board</li>
+        {% endfor %}
+    </div>
+    <div class="col text-start px-5 mt-4">
+        <ul class="list-group">
+            {% for label in labels %}
+                <li class="list-group-item text-center">
+                    <span class="badge text-bg-info w-100 text-white" style="background-color: {{ label.color }}!important;">{{ label.name }}</span>
+                </li>
+                {% else %}
+                <li class="list-group-item text-center">No labels added to board</li>
+            {% endfor %}
+        </ul>
+    </div>
+  </div>
+</div>
+<div class="mt-auto mb-3 d-flex justify-content-center">
+  <a href="{{ path('app_board_wizard', {'step': 3}) }}" class="btn btn-primary glow-hover-primary mt-5 mb-5">Create Board</a>
+</div>
+{% endblock %}

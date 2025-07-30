@@ -2,20 +2,20 @@
 
 {% block title %}Cards{% endblock %}
 {% block headline %}Cards{% endblock %}
+{% block button %}
+<a href="{{ path('app_card_new') }}" class="btn btn-sm btn-primary glow-hover-primary mb-0 me-4">New Card</a>
+{% endblock %}
 {% block body %}
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <a href="{{ path('app_card_label_index') }}" class="btn btn-link p-0">Show labeled cards</a>
-          <a href="{{ path('app_card_new') }}" class="btn btn-primary mb-3">New Card</a>
-          <a href="{{ path('app_card_label_assign') }}" class="btn btn-primary mb-3">New Card Label</a>
-</div>
-<div class="table-responsive small">
-    <table class="table table-striped table-sm">
+<hr>
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
                 <th scope="col">Status</th>
+                <th scope="col">Label</th>
                 <th scope="col">Created by</th>
                 <th scope="col">Created at</th>
             </tr>
@@ -27,11 +27,18 @@
                 <td>{{ card.title }}</td>
                 <td>{{ card.description }}</td>
                 <td>{{ card.lane.title }}</td>
+                {% for cardLabel in card.cardLabels %}
+                    <td><span class="badge text-bg-info w-100" style="background-color: {{ cardLabel.label.color }}!important;">{{ cardLabel.label.name }}</span></td>
+                    {% else %}
+                    <td>-</td>
+                {% endfor %}
                 <td>{{ card.createdBy.username }}</td>
                 <td>{{ card.createdAt|date("d.m.Y", "Europe/Berlin") }}</td>
             </tr>
             {% else %}
             <tr>
+                <td>-</td>
+                <td>-</td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
